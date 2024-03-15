@@ -1037,7 +1037,7 @@ def search_book_info(request):
             return redirect('book-info', book_query.first().id)
         
         messages.error(request, "The book and it's info doesn't exist")
-        return redirect('search-book-info')
+        return redirect('search-book-info-page')
 
 
 
