@@ -1,0 +1,75 @@
+{% extends 'library/row_book.html' %}
+{% block title %}Book details{% endblock title %}
+{% block book-details %}
+    <div class="mb-5">
+        <div>
+            <ul class="p-0">
+                <li>
+                    <span class="w3-monospace w3-large mr-2">Who's borrowing?</span> 
+                    <a href="#student" data-toggle="collapse" class="w3-text-pink font-weight-bold">Student/Staff</a>
+                </li>
+                
+            </ul>
+        
+        </div>
+        <div>
+            <div class="collapse fade" id="student">
+                <div class="mb-2">
+                    <h4 class="w3-monospace">Student/Staff reg-no</h4>
+                </div>
+                <div>
+                    <form action="{% url 'bulk-borrow-search-form-data' column.id %}" method="post">
+                        {% csrf_token %}
+    
+                        <div class="form-row">
+                            <div class="col-10">
+                                <input type="text" name="reg_no" class="form-control w3-round-xlarge" placeholder="Enter student/Staff reg no" required>
+                            </div>
+                            <div class="col-2">
+                                <button type="submit" class="btn btn-sm w3-pink w3-round-xlarge">Next</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>   
+            
+        </div>          
+    </div>
+    
+    {% block user_borrowing_status %}{% endblock user_borrowing_status %}
+
+
+    {% block bulk-books %}
+        <div>
+            <div class="w3-light-gray py-1 w3-round-xxlarge">
+                <h4 class="w3-monospace text-center">{{ column.column_name }}</h4>
+            </div>
+            <div class="mt-3">
+                {% if books %}
+
+                    <div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    {% for book in books %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td class="w3-monospace">{{ book.book_serial_no}}</td>
+                                            <td class="w3-monospace">{{ book.book_name }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                {% else %}
+                    <div class="w3-container pt-3">
+                        <p class="w3-monospace">Currently no book(s) to be borrowed.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endblock bulk-books %}
+
+{% endblock book-details %}

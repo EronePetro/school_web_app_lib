@@ -1,0 +1,59 @@
+{% extends 'library/category_rows.html' %}
+{% block title %}Row books{% endblock title %}
+{% block column %}
+    <div class="mb-5 mt-3">
+        <div class="w3-light-gray py-1 w3-round-xxlarge">
+            <h4 class="font-weight-bold text-center w3-monospace">
+                {{ row.category.category_name }}
+                (<span class="w3-text-pink">{{ row.shelve }}</span>)
+            </h4>
+        </div>
+
+        <div class="mt-4">
+            {% for column, books in row_books.items %}
+                <div>
+                    <h5 class="font-weight-bold">{{ column.column_name }}</h5>
+                </div>
+                {% if books %}
+                    <div class="mb-4">
+                        <table class="table table-bordered">
+                            <tbody>
+                                
+                                {% for book in books %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td class="w3-serif">{{ book.book_serial_no }}</td>
+                                        <td class="w3-serif">{{ book.book_name }}</td>
+                                        <td>
+                                            {% if book.borrowed %}
+                                                <span class="w3-text-pink">Borrowed</span>
+                                            {% else %}
+                                                <a href="{% url 'book-details' book.id %}" class="w3-text-green text-decoration-none">Available</a>
+                                            {% endif %}
+                                        </td>
+                                        
+                                    </tr>
+                                    
+                                {% endfor %}
+
+                                <tr class="w3-light-gray">
+                                    <td colspan="4" class="align-middle text-center">
+                                        <a href="{% url 'bulk-borrowing' column.id %}" class="text-decoration-none w3-serif w3-text-blue w3-hover-text-blue">For bulk borrowing</a>
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div>
+                        <p>It's empty</p>
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock column %}
+
+{% block book-details %}{% endblock book-details %}

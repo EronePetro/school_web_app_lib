@@ -1,0 +1,24 @@
+{% extends 'library/base.html' %}
+{% block title %}Cancel & delete borrowed book record{% endblock title %}
+{% block content %}
+    <diV class="row mt-4">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div>
+                        <p class="w3-monospace">Are you sure the book presetend to you is the one the student borrowed.</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <a href="{% url 'unreturned-borrowed-books' reg_no %}" class="btn w3-pink w3-round-xlarge">Cancel</a>
+                            <button type="submit" class="btn btn-outline-danger w3-round-xlarge">Yes I'm sure</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </diV>
+{% endblock content %}

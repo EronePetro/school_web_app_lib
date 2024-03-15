@@ -1,0 +1,101 @@
+{% extends 'library/base.html' %}
+{% block title %}Librarian{% endblock title %}
+{% block content %}
+    <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width: 180px;" id="mySidebar">
+        <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">
+            Close <span class="w3-display-topright">&times;</span>
+        </button>
+        <div class="w3-container w3-dark-gray">
+            <h3 class="font-weight-bold">Content</h3>
+        </div>
+
+        <a class="w3-bar-item w3-button w3-black text-decoration-none" href="{% url 'home' %}">Home</a>
+        <a class="w3-bar-item w3-button text-decoration-none w3-hover-white w3-hover-text-pink w3-text-pink w3-serif w3-large" 
+            href="{% url 'borrowed-books' %}">
+            Borrowed books
+        </a>
+        <a class="w3-bar-item w3-button text-decoration-none w3-hover-light-gray w3-hover-text-pink w3-text-pink w3-serif w3-large" 
+            href="{% url 'search-book-info-page' %}">
+            Search book info
+        </a>
+        {% if user.is_superuser and user.is_librarian %}
+            <a class="w3-bar-item w3-button text-decoration-none w3-hover-light-gray w3-light-gray w3-hover-text-black w3-text-black w3-serif w3-large font-weight-bold" 
+            href="{% url 'admin:index' %}">Admin</a>
+        {% endif %}
+        <a class="w3-bar-item w3-button text-decoration-none w3-dark-gray w3-hover-dark-gray w3-serif w3-large" 
+            href="{% url 'logout' %}">
+            Log out
+        </a>
+
+
+    </div>
+
+    <div class="w3-main" style="margin-left: 180px">
+        <div class="w3-light-gray w3-round-xxlarge">
+            <button class="w3-button w3-light-gray w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
+            <div class="w3-container">
+                <div class="row">
+                    <div class="col-12">
+                        <div>
+                            <img src="{{ school.school_logo.url }}" style="height:120px; width:120px" class="d-block mx-auto img-fluid w3-round-xxlarge">
+                        </div>
+                        <div class="text-center">
+                            <h3 class="font-weight-bold w3-monospace">{{ school.school_name }}</h3>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="w3-container pt-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="w3-light-gray w3-round-xxlarge">
+                                <tr>
+                                    <th colspan="2" class="w3-monospace w3-xlarge text-center">Category/Subject</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for category in categories %}
+                                    <tr class="w3-hover-dark-gray">
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>
+                                            <a href="{% url 'category' category.id %}" style="display: block; cursor: pointer;"
+                                            class="text-decoration-none w3-hover-text-white w3-monospace">
+                                                {{ category.category_name }}
+                                            </a>
+                                        </td>
+                                    </tr>
+                        
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    {% block row %}
+                        <div style="margin-top: 80px; margin-bottom: 40px;">
+                            <p class="w3-monospace w3-medium text-center w3-text-pink">To proceed click any subject/category.</p>
+                        </div>
+                    {% endblock row %}
+                </div>
+                <div class="col-md-4">
+                    {% block book-details %}{% endblock book-details %}
+                </div>
+            </div>
+        </div>
+    </div>   
+
+    <script>
+        function w3_open() {
+            document.getElementById('mySidebar').style.display = "block";
+        }
+
+        function w3_close() {
+            document.getElementById('mySidebar').style.display = 'none';
+        }
+    </script>     
+{% endblock content %}

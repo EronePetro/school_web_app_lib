@@ -1,0 +1,100 @@
+{% extends 'library/book_details.html' %}
+{% block title %}Student info{% endblock title %}
+{% load humanize %}
+{% block search %}
+    <div class="mt-5">
+        <div class="w3-light-gray py-1 w3-round-xlarge">
+            <h5 class="text-center font-weight-bold w3-serif">
+                {{ student.student_name }} - {{ student.student_admission_no }} <br />borrowed book{{ records|pluralize }}
+            </h5>
+        </div>
+
+        <div class="mt-4">
+            {% if records %}
+                <div class="w3-light-gray py-3 px-1 w3-round-xlarge">
+                    {% for record in records %}
+                        <div class="w3-white mb-3 w3-round-xxlarge py-2">
+                            <div class="table-responsive">
+                                <table class="table table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <th class="align-middle w3-serif">Book</th>
+                                            <td class="align-middle w3-serif">{{ record.book.book_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="align-middle w3-serif">Book serial no.</th>
+                                            <td class="w3-monospace">{{ record.book.book_serial_no }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="align-middle w3-serif">Date borrowed</th>
+                                            <td class="align-middle">
+                                                {{ record.date_borrowed|date:"F, d Y" }}
+                                                <br>
+                                                <span class="w3-text-pink w3-serif">{{ record.date_borrowed|naturaltime }}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>       
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="w3-container">
+                    <p class="w3-serif w3-large">At the moment no record(s) found attached to the student.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mt-4">
+            <div class="w3-light-gray py-1 w3-round-xlarge w3-light-gray">
+                <h4 class="text-center font-weight-bold">Student details</h4>
+            </div>
+            
+            <div class="mt-3">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <tbody>
+                            <tr>
+                                <th class="align-middle w3-serif">Student name</th>
+                                <td class="align-middle">
+                                    <span class="w3-text-dark-gray font-weight-bold w3-serif w3-large">
+                                        {{ student.student_name }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="align-middle w3-serif">Admission no.</th>
+                                <td class="align-middle">
+                                    <span class="w3-text-dark-gray font-weight-bold w3-serif w3-large">
+                                        {{ student.student_admission_no }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="align-middle w3-serif">Stream</th>
+                                <td class="align-middle">
+                                    {{ student.form_stream_year.form_label }} {{ student.form_stream_year.stream }} 
+                                    (<span class="w3-text-pink">{{ student.form_stream_year.year }}</span>)
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="align-middle w3-serif">Class teacher</th>
+                                <td class="align-middle">{{ student.form_stream_year.teacher.full_name }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-2">
+                <div>
+                    <p class="text-center">
+                        Is the student eligiable?
+                        <a class="w3-text-pink ml-1" href="{% url 'give-out-the-book' student.id book.id %}">Give out the book</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock search %}

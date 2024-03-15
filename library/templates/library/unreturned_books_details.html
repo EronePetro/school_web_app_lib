@@ -1,0 +1,102 @@
+{% extends 'library/borrowed_list.html' %}
+{% block title %}Student unreturned books details{% endblock title %}
+
+{% load humanize %}
+
+{% block student_unreturned_books %}
+    <div class="mt-4">
+        {% if unreturned_books %}
+            <div class="mb-3">
+                <h4 class="font-weight-bold text-center w3-cursive">
+                    {% if student %}
+                        {{ student.student_name }}
+                    {% else %}
+                        {{ staff.staff_member_name }}
+                    {% endif %}
+                
+                </h4>
+                <p class="text-center font-italic w3-text-pink">
+                    (Unreturned book{{ unreturned_books|pluralize }} record{{ unreturned_books|pluralize }})
+                </p>
+            </div>
+
+            <div class="jumbotron py-4 px-3 w3-round-xxlarge">
+                {% for book in unreturned_books %}
+                    <div class="mb-3 w3-light-gray w3-hover-white w3-round-xxlarge px-4 py-2">
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-sm">
+                                <tbody>
+                                    <tr>
+                                        <th class="w3-serif w3-large">Book serial no.</th>
+                                        <td class="w3-serif w3-xlarge w3-text-indigo">{{ book.book.book_serial_no }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="w3-serif w3-large">Book</th>
+                                        <td class="w3-serif w3-large">{{ book.book.book_name }}</td>
+                                    </tr>
+                                    {% if book.staff %}
+                                        <tr>
+                                            <th class="w3-serif w3-large">Staff member name</th>
+                                            <td class="w3-serif w3-large w3-large text-info">{{ book.staff.staff_member_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="w3-serif w3-large">Staff member no</th>
+                                            <td class="w3-serif w3-large w3-large text-info">{{ book.staff.staff_member_no }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="w3-serif w3-large">Contact</th>
+                                            <td class="w3-serif w3-large w3-large text-info">
+                                                {{ book.staff.contact }}
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <th class="w3-serif w3-large">Student</th>
+                                            <td class="w3-serif w3-large w3-large text-info">{{ book.student.student_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="w3-serif w3-large">Student admission no</th>
+                                            <td class="w3-serif w3-large w3-large text-info">{{ book.student.student_admission_no }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="w3-serif w3-large">Stream</th>
+                                            <td class="w3-serif w3-large w3-large text-info">
+                                                {{ book.student.form_stream_year.form_label }}
+                                                {{ book.student.form_stream_year.stream }}
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <th>Date borrowed</th>
+                                        <td>
+                                            {{ book.date_borrowed|date:"F, d Y" }}
+                                            <br>
+                                            <span class="w3-text-pink w3-serif">{{ book.date_borrowed|naturaltime }}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="text-center my-2">
+                            {% if student %}
+                                <a href="{% url 'delete-borrowed-book-record' book.id student.id student.student_admission_no %}" class="text-decoration-none font-weight-bold w3-text-pink w3-hover-text-teal">
+                                    Receive borrowed book back
+                                </a>
+                            {% elif staff %}
+                                <a href="{% url 'delete-borrowed-book-record' book.id staff.id staff.staff_member_no %}" class="text-decoration-none font-weight-bold w3-text-pink w3-hover-text-teal">
+                                    Receive borrowed book back
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="w3-container">
+                <p class="w3-monospace">No records for unreturned borrowed books</p>
+            </div>
+            
+        {% endif %}
+    </div>
+{% endblock student_unreturned_books %}

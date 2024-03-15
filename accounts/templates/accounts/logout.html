@@ -1,0 +1,15 @@
+{% extends 'library/base.html' %}
+{% block title %}Log out{% endblock title %}
+{% block content %}
+<div>
+    <div>
+        <p style="font-size:19px" class="text-secondary">Logged out</p>
+    </div>
+    <div>
+        <p>Thanks for spending some quality time with the web site today.</p>
+    </div>
+    <div>
+        <a href="{% url 'login' %}" class="text-info">Log in again</a>
+    </div>
+</div>
+{% endblock content %}

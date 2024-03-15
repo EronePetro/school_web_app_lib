@@ -1,0 +1,124 @@
+{% extends 'library/search_book_info_page.html' %}
+{% block title %}Book-info{% endblock title %}
+{% load humanize %}
+{% block book-info %}
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+            <div class="mt-5">
+                <div class="w3-light-blue py-1 w3-round-xxlarge">
+                    <h4 class="text-center w3-monospace font-weight-bold">Book Info</h4>
+                </div>
+                <div class="mt-4">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <tbody>
+                                <tr>
+                                    <th>Book</th>
+                                    <td>
+                                        <span class="text-secondary w3-serif w3-large w3-text-indigo">Book name:</span><br>
+                                        {{ book_info.book_name }}
+                                    </td>
+                                    <td>
+                                        <span class="text-secondary w3-serif w3-large w3-text-indigo">Serial no:</span><br>
+                                        {{ book_info.book_serial_no }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Category/subject</th>
+                                    <td colspan="2">{{ book_info.column.row.category.category_name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Row/shelve/form</th>
+                                    <td colspan="2">{{ book_info.column.row.shelve }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Column</th>
+                                    <td colspan="2">{{ book_info.column.column_name }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>    
+            </div>    
+        </div>
+
+        <div class="col-md-5">
+            <div class="pt-5">
+                <div class="w3-dark-gray py-1 w3-round-xxlarge mb-3">
+                    <h4 class="font-weight-bold w3-monospace text-center">
+                        Book Status
+                        {% if data %}
+                            (<span class="w3-text-light-blue">Borrowed</span>)
+                        {% else %}
+                            (<span class="w3-text-light-blue">Available</span>)
+                        {% endif %}
+                    </h4>
+                </div>
+
+                {% if data %}
+                    <div class="jumbotron p-2 w3-round-xlarge">
+                        <div class="w3-white w3-round-xxlarge px-1 pt-2">
+                            <div class="table-responsive">
+                                <table class="table table-borderless table-hover">
+                                    <tbody>
+                                        <tr>
+                                            {% if data.student %}
+                                                <th>Student</th>
+                                                <td>{{ data.student.student_name }}</td>
+                                            {% else %}
+                                                <th>Staff</th>
+                                                <td>{{ data.staff.staff_member_name }}</td>
+                                            {% endif %}
+                                        </tr>
+                                        <tr>
+                                            {% if data.student %}
+                                                <th>Admission no.</th>
+                                                <td>{{ data.student.student_admission_no }}</td>
+                                            {% else %}
+                                                <th>Staff member no.</th>
+                                                <td>{{ data.staff.staff_member_no }}</td>
+                                            {% endif %}
+                                        </tr>
+                                        <tr>
+                                            {% if data.student %}
+                                                <th>Stream</th>
+                                                <td>
+                                                    {{ data.student.form_stream_year.form_label }}
+                                                    {{ data.student.form_stream_year.stream }}
+                                                </td>
+                                            {% else %}
+                                                <th>Contact</th>
+                                                <td>{{ data.staff.contact }}</td>
+                                            {% endif %}
+                                        </tr>
+                                        <tr>
+                                            <th>Book</th>
+                                            <td>{{ data.book.book_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Serial no</th>
+                                            <td>{{ data.book.book_serial_no }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Date</th>
+                                            <td>
+                                                {{ data.date_borrowed|date:"F, d Y" }} <br>
+                                                <span class="w3-text-pink w3-serif">{{ data.date_borrowed|naturaltime }}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>    
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="w3-container">
+                        <p class="w3-monospace">The book isn't borrowed.</p>
+                    </div>
+                {% endif %}
+            </div>    
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+{% endblock book-info %}

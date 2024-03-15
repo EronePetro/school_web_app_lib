@@ -1,0 +1,102 @@
+{% extends 'library/row_book.html' %}
+{% block title %}Book details{% endblock title %}
+{% block book-details %}
+    <div>
+        
+        <div class="w3-light-gray py-1 w3-round-xlarge">
+            <h4 class="text-center w3-monospace">{{ book.book_serial_no }} - {{ book.book_name }} book details</h4>
+        </div>
+
+        <div class="mt-3">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <tbody>
+                        <tr>
+                            <th class="align-middle w3-serif">Category</th>
+                            <td>
+                                <span class="w3-text-indigo font-weight-bold">{{ book.column.row.category.category_name }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="align-middle w3-serif">Form (Shelve)</th>
+                            <td class="align-middle">
+                                <span class="font-weight-bold w3-text-indigo">{{ book.column.row.shelve }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="align-middle w3-serif">Column</th>
+                            <td class="align-middle">{{ book.column.column_name }}</td>
+                        </tr>
+                        <tr>
+                            <th class="align-middle w3-serif">Book name</th>
+                            <td class="align-middle">
+                                <span class="font-weight-bold w3-text-indigo">{{ book.book_name }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="align-middle w3-serif">Book serial no.</th>
+                            <td class="w3-serif font-weight-bold w3-text-indigo align-middle">
+                                {{ book.book_serial_no }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <div>
+                <p>
+                    <span class="w3-monospace w3-large">Who's borrowing</span> 
+                    <a href="#student" data-toggle="collapse" class="w3-text-pink font-weight-bold">Student</a>
+                     or 
+                    <a href="#staff" data-toggle="collapse" class="w3-text-pink font-weight-bold">Staff member</a>
+                </p>
+                
+            </div>
+            <div>
+                <div class="collapse fade" id="student">
+                    <div class="mb-2">
+                        <h4 class="font-weigth-bold w3-monospace">Student Admission no</h4>
+                    </div>
+                    <div>
+                        <form action="{% url 'search-student' book.id %}" method="post">
+                            {% csrf_token %}
+            
+                            <div class="form-row">
+                                <div class="col-10">
+                                    <input type="text" name="adm_no" class="form-control w3-round-xlarge" placeholder="Enter student admission no" required>
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit" class="btn w3-pink w3-round-xlarge">Next</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>   
+
+                <div class="collapse fade" id="staff">
+                    <div class="mb-2">
+                        <h4 class="font-weigth-bold w3-cursive">Staff member no</h4>
+                    </div>
+                    <div>
+                        <form action="{% url 'search-staff-member' book.id %}" method="post">
+                            {% csrf_token %}
+            
+                            <div class="form-row">
+                                <div class="col-10">
+                                    <input type="text" name="staff_member_no" class="form-control w3-round-xlarge" placeholder="Enter staff member's number" required>
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit" class="btn w3-pink w3-round-xlarge">Next</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>   
+            </div>          
+        </div>
+
+        {% block search %}{% endblock search %}
+    </div>
+{% endblock book-details %}

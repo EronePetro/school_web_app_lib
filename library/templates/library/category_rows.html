@@ -1,0 +1,41 @@
+{% extends 'library/librarian.html' %}
+{% block title %}Category/Subject rows/forms{% endblock title %}
+
+{% block row %}
+    <div>
+        <div class="w3-light-gray w3-round-xxlarge py-1">
+            <h4 class="font-weight-bold text-center w3-serif">
+                (<span class="w3-text-pink">{{ category.category_name }}</span>)
+            </h4>
+        </div>
+
+        <div class="mt-3">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="w3-light-gray">
+                        <tr>
+                            <th class="w3-serif">Title/Form e.g. 1, 2</th>
+                            <th class="w3-serif">Respective links</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in rows %}
+                            <tr>
+                                <td class="w3-serif w3-large">{{ row.shelve }}</td>
+                                <td>
+                                    <a href="{% url 'row-columns-books' row.id %}"
+                                    class="w3-text-pink text-decoration-none">Click Here</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>    
+        
+        {% block column %}{% endblock column %}
+
+    </div>
+{% endblock row %}
+
+{% block book-details %}{% endblock book-details %}

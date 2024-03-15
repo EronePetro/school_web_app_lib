@@ -1,0 +1,87 @@
+{% extends 'library/book_details.html' %}
+{% block title %}Student info{% endblock title %}
+{% load humanize %}
+{% block search %}
+    <div class="mt-5">
+        <div class="w3-dark-gray py-1 w3-round-xxlarge">
+            <h5 class="text-center font-weight-bold w3-cursive">
+                {{ staff.staff_member_name }} - {{ staff.staff_member_number }} <br />borrowed book{{ records|pluralize }}
+            </h5>
+        </div>
+
+        <div class="mt-4">
+            {% if records %}
+                <div class="w3-gray py-3 px-1 w3-round-large">
+                    {% for record in records %}
+                        <div class="w3-light-gray w3-hover-white mb-3 w3-round-xxlarge py-2">
+                            <div class="table-responsive">
+                                <table class="table table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <th>Book</th>
+                                            <td>{{ record.book.book_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Book serial no.</th>
+                                            <td class="w3-cursive">{{ record.book.book_serial_no }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Date borrowed</th>
+                                            <td>
+                                                {{ record.date_borrowed|date:"F, d Y" }}
+                                                <br>
+                                                <span class="w3-text-pink w3-cursive">{{ record.date_borrowed|naturaltime }}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>       
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div>
+                    <p class="w3-cursive">At the moment no record(s) found attached to the staff member.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mt-4">
+            <div class="w3-dark-gray py-1 w3-round-xxlarge">
+                <h4 class="text-center font-weight-bold">Staff member profile</h4>
+            </div>
+            
+            <div class="mt-4">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <tbody>
+                            <tr>
+                                <th>Staff member name</th>
+                                <td>{{ staff.staff_member_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Staff member no.</th>
+                                <td>{{ staff.staff_member_no }}</td>
+                            </tr>
+                            <tr>
+                                <th>Contact</th>
+                                <td>
+                                    {{ staff.contact }} 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-2">
+                <div>
+                    <p class="text-center">
+                        Is the staff member eligiable
+                        <a class="w3-text-pink ml-1" href="{% url 'give-staff-member-the-book' staff.id book.id %}">Give out the book</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock search %}

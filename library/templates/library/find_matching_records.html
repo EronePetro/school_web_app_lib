@@ -1,0 +1,108 @@
+{% extends 'library/bulk_borrow_page.html' %}
+{% block title %}{% endblock title %}
+
+{% load humanize %}
+{% load crispy_forms_tags %}
+
+{% block user_borrowing_status %}
+    <div class="mb-3">
+        <div>
+            {% if instance.0.student_admission_no %}
+                <h4 class="w3-serif font-weight-bold w3-text-gray">
+                    {{ instance.0.student_name }} - {{ instance.0.student_admission_no }} (borrowed books)
+                </h4>
+            {% else %}
+                <h5 class="w3-serif font-weight-bold w3-text-gray">
+                    {{ instance.0.staff_member_name }} - {{ instance.0.staff_member_no }} (borrowed books)
+                </h5>  
+            {% endif %}
+        </div>
+        <div class="mt-4">
+            {% if status %}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm">
+                        <thead class="w3-light-gray">
+                            <tr>
+                                <th class="w3-serif">Serial-no</th>
+                                <th class="w3-serif">Book-name</th>
+                                <th class="w3-serif">Date-borrowed</th>
+                                <th class="w3-serif">N-time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for stat in status %}
+                                {% for element in stat %}
+                                    <tr>
+                                        <td class="w3-serif w3-text-indigo align-middle font-weight-bold">{{ element.book.book_serial_no }}</td>
+                                        <td class="w3-serif">{{ element.book.book_name }}</td>
+                                        <td class="w3-serif">{{ element.date_borrowed|date:"F, d Y" }}</td>
+                                        <td class="w3-serif">{{ element.date_borrowed|naturaltime }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div>
+                    <p class="w3-serif">Currently no information.</p>
+                </div>
+            {% endif %}
+        </div>    
+    </div>
+
+{% endblock user_borrowing_status %}
+
+
+{% block bulk-books %}
+    <div class="mb-3">
+        <div class="mb-4">
+            <h4 class="w3-monospace">{{ column.column_name }}</h4>
+        </div>
+        {% if books %}
+            <div>
+                <form action="{% url 'save-bulk' column.id reg_no.0 %}" method="post">
+                    {% csrf_token %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="w3-light-gray">
+                                <tr>
+                                    <th class="w3-monospace">CheckBox</th>
+                                    <th class="w3-monospace">B-serial-no</th>
+                                    <th class="w3-monospace">B-Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for book in books %}
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" id="book-{{ book.id }}" name="book" value="{{ book.id }}">
+                                        </td>
+                                        <td>
+                                            <label for="book-{{ book.id }}">
+                                                <span class="font-weight-bold w3-monospace ml-2">{{ book.book_serial_no }}</span>
+                                            </label>
+                                        </td>
+                                        <td class="w3-monospace">
+                                            {{ book.book_name }}
+                                        </td>
+                                            
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-sm w3-pink w3-round-large">Submit</button>
+                        </div>
+                            
+                    </div>
+                </form>
+            </div>    
+        {% else %}
+            <div>
+                <p class="w3-serif">Currently nothing to be borrowed</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock bulk-books %}
