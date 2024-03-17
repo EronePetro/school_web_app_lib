@@ -40,12 +40,15 @@
                 </div>
             </div>
         </div>
+        
         <div class="w3-container pt-2">
+
             {% comment %}
             <div>
                 <h3 class="text-center w3-text-indigo w3-serif">Return borrowed books & Borrowed books list</h3>
             </div>
             {% endcomment %}
+
             <div class="row">
                 <div class="col-md-5">
                     <div class="mb-4">
@@ -202,25 +205,27 @@
 
                                 <div class="text-center">
                                      
-                                        {% if page_obj.has_previous %}
-                                            <a href="?page=1" class="btn btn-outline-info btn-sm w3-round-large">First</a>
-                                            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-info btn-sm w3-round-large">Previous</a>
+                                    {% if page_obj.has_previous %}
+                                        <a href="?page=1" class="btn btn-outline-info btn-sm w3-round-large">First</a>
+                                        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-info btn-sm w3-round-large">Previous</a>
+                                    {% endif %}
+                                    {% for num in page_obj.paginator.page_range %}
+                                        {% if page_obj.number == num %}
+                                            <a href="?page={{ num }}" class="btn btn-info btn-sm">{{ num }}</a>
+                                        {% elif num > page_obj.number|add:"3" and num < page_obj.number|add:"-3" %}
+                                            <a href="?page={{ num }}" class="btn btn-outline-info btn-sm w3-round-large">{{ num }}</a>
                                         {% endif %}
-                                        {% for num in page_obj.paginator.page_range %}
-                                            {% if page_obj.number == num %}
-                                                <a href="?page={{ num }}" class="btn btn-info btn-sm">{{ num }}</a>
-                                            {% elif num > page_obj.number|add:"3" and num < page_obj.number|add:"-3" %}
-                                                <a href="?page={{ num }}" class="btn btn-outline-info btn-sm w3-round-large">{{ num }}</a>
-                                            {% endif %}
-                                        {% endfor %}
-                                        {% if page_obj.has_next %}
-                                            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-info btn-sm w3-round-large">Next</a>
-                                            <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-info btn-sm w3-round-large">Last</a>
-                                        {% endif %}
+                                    {% endfor %}
+                                    {% if page_obj.has_next %}
+                                        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-info btn-sm w3-round-large">Next</a>
+                                        <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-info btn-sm w3-round-large">Last</a>
+                                    {% endif %}
                                     
                                 </div>
                             {% else %}
-                                <p class="w3-cursive">No records for borrowed books</p>
+                                <div>
+                                    <p class="w3-monospace">No records for borrowed books</p>
+                                </div>
                             {% endif %}
                         </div>
                     </div>

@@ -7,14 +7,14 @@
     <div class="mt-4">
         {% if unreturned_books %}
             <div class="mb-3">
-                <h4 class="font-weight-bold text-center w3-cursive">
+                <h4 class="font-weight-bold text-center w3-monospace">
                     {% if student %}
                         {{ student.student_name }}
                     {% else %}
                         {{ staff.staff_member_name }}
                     {% endif %}
-                
                 </h4>
+                
                 <p class="text-center font-italic w3-text-pink">
                     (Unreturned book{{ unreturned_books|pluralize }} record{{ unreturned_books|pluralize }})
                 </p>
@@ -96,7 +96,6 @@
             <div class="w3-container">
                 <p class="w3-monospace">No records for unreturned borrowed books</p>
             </div>
-            
         {% endif %}
     </div>
 {% endblock student_unreturned_books %}
