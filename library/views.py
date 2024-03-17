@@ -767,7 +767,7 @@ def list_of_borrowed_books(request):
     # Looping over the Counter model class objects/instances
     for counter in counters:
         datetime_object = datetime.datetime(counter.date.year, counter.date.month, counter.date.day, 
-                                            counter.date.hour + 3, counter.date.minute, counter.date.second)
+                                            counter.date.hour, counter.date.minute, counter.date.second)
 
         # Week day in english
         weekday = datetime_object.strftime("%A")

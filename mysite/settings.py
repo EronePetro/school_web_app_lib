@@ -141,10 +141,14 @@ USE_TZ = True
 
 AUTH_USER_MODEL = "users.User"
 
+PHONENUMBER_DB_FORMAT = 'NATIONAL'
+PHONENUMBER_DEFAULT_REGION = 'KE'
+
 # Formats for exports
 EXPORT_FORMATS = [XLSX]
 
 # CSRF_TRUSTED_ORIGIN = []
+
 
 
 # Static files (CSS, JavaScript, Images)
